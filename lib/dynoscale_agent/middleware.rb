@@ -35,8 +35,13 @@ module DynoscaleAgent
         # publish measurements if its been a minute
 	report = @@measurements.slice!(0..-1)
         url = URI("#{ENV['DYNOSCALE_URL']}/api/v1/report")
-	http = Net::HTTP.new(url.host, url.port)
-	request = Net::HTTP::Post.new(url)
+        if url.scheme == "http"
+	  http = Net::HTTP.new(url.host, url.port)
+	  request = Net::HTTP::Post.new(url)
+        else
+          https = Net::HTTPS.new(url.host, url.port)
+          request = Net::HTTPS::Post.new(url)
+        end
 	request["Content-Type"] = "text/csv"
         request["X_REQUEST_START"] = "t=#{Time.now.to_i}"
 	request.body = report.reduce(""){|t, m| "#{t}#{m}\n"}
