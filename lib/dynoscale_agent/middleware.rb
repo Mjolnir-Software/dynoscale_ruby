@@ -34,7 +34,7 @@ module DynoscaleAgent
       if @@measurements.any? && @@next_report < current_time
         # publish measurements if its been a minute
 	report = @@measurements.slice!(0..-1)
-        url = URI("#{ENV['DYNOSCALE_URL']}/api/v1/report")
+        url = URI(ENV['DYNOSCALE_URL'])
         if url.scheme == "http"
 	  http = Net::HTTP.new(url.host, url.port)
 	  request = Net::HTTP::Post.new(url)
