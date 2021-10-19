@@ -46,7 +46,7 @@ module DynoscaleAgent
         request["X_REQUEST_START"] = "t=#{Time.now.to_i}"
         request["X_DYNO"] = ENV['DYNO'] || "dev.55"
         request["X_APP_NAME"] = ENV['HEROKU_APP_NAME']
-        request.body = report.reduce(""){|t, m| "#{t}#{m}\n"}
+        request.body = report.reduce(""){|t, m| "#{t}#{m[0]},#{m[1]}\n"}
 	begin
 	  response = http.request(request)
 	rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
