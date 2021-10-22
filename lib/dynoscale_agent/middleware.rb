@@ -18,7 +18,7 @@ module DynoscaleAgent
     def call(env)
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
       return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']
-      return @app.call(env) if !is_dev && ENV['DYNO']&.split(".")&.last == "1"
+      return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
       request_calculator = RequestCalculator.new(env)
       @@measurements ||= []
 
