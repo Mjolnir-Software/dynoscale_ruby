@@ -16,7 +16,9 @@ module DynoscaleAgent
     end
 
     def call(env)
+      is_dev = ENV['DYNOSCALE_DEV'] == 'true'
       return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']
+      return @app.call(env) if !is_dev && ENV['DYNO']&.split(".")&.last == "1"
       request_calculator = RequestCalculator.new(env)
       @@measurements ||= []
 
@@ -44,7 +46,7 @@ module DynoscaleAgent
         end
 	request["Content-Type"] = "text/csv"
         request["X_REQUEST_START"] = "t=#{Time.now.to_i}"
-        request["X_DYNO"] = ENV['DYNO'] || "dev.55"
+        request["X_DYNO"] = is_dev ? "dev.1" : ENV['DYNO']
         request["X_APP_NAME"] = ENV['HEROKU_APP_NAME']
         request.body = report.reduce(""){|t, m| "#{t}#{m[0]},#{m[1]}\n"}
 	begin
