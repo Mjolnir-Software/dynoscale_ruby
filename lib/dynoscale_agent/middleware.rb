@@ -36,33 +36,34 @@ module DynoscaleAgent
       if @@measurements.any? && @@next_report < current_time
         # publish measurements if its been a minute
 	report = @@measurements.slice!(0..-1)
-        url = URI(ENV['DYNOSCALE_URL'])
-        if url.scheme == "http"
-	  http = Net::HTTP.new(url.host, url.port)
-	  request = Net::HTTP::Post.new(url)
-        else
-          https = Net::HTTPS.new(url.host, url.port)
-          request = Net::HTTPS::Post.new(url)
+        Thread.start do
+          url = URI(ENV['DYNOSCALE_URL'])
+          if url.scheme == "http"
+	    http = Net::HTTP.new(url.host, url.port)
+	    request = Net::HTTP::Post.new(url)
+          else
+            https = Net::HTTPS.new(url.host, url.port)
+            request = Net::HTTPS::Post.new(url)
+          end
+	  request["Content-Type"] = "text/csv"
+          request["X_REQUEST_START"] = "t=#{Time.now.to_i}"
+          request["X_DYNO"] = is_dev ? "dev.1" : ENV['DYNO']
+          request["X_APP_NAME"] = ENV['HEROKU_APP_NAME']
+          request.body = report.reduce(""){|t, m| "#{t}#{m[0]},#{m[1]}\n"}
+	  begin
+	    response = http.request(request)
+	  rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+            @@next_report = current_time + REPORT_PUBLISH_RETRY_FREQ * 60
+          end
+  	  if response&.code == "200"
+	    puts "Publish Success"
+            @@next_report = current_time + REPORT_PUBLISH_FREQ * 60
+	  else
+	    puts "Publish failure re-adding measurements to array"
+            @@next_report = current_time + REPORT_PUBLISH_RETRY_FREQ * 60
+            @@measurements.unshift(*report)
+	  end
         end
-	request["Content-Type"] = "text/csv"
-        request["X_REQUEST_START"] = "t=#{Time.now.to_i}"
-        request["X_DYNO"] = is_dev ? "dev.1" : ENV['DYNO']
-        request["X_APP_NAME"] = ENV['HEROKU_APP_NAME']
-        request.body = report.reduce(""){|t, m| "#{t}#{m[0]},#{m[1]}\n"}
-	begin
-	  response = http.request(request)
-	rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
-          # do nothing
-          @@next_report = current_time + REPORT_PUBLISH_RETRY_FREQ * 60
-        end
-	if response&.code == "200"
-	  puts "Publish Success"
-          @@next_report = current_time + REPORT_PUBLISH_FREQ * 60
-	else
-	  puts "Publish failure re-adding measurements to array"
-          @@next_report = current_time + REPORT_PUBLISH_RETRY_FREQ * 60
-          @@measurements.unshift(*report)
-	end
       end
       puts "Measurements #{@@measurements}"
       if @@measurements.any? && @@measurements.dig(0, 0) < (current_time.to_i - MEASUREMENT_TTL * 60)
