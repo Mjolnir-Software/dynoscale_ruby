@@ -27,7 +27,7 @@ module DynoscaleAgent
       success = response&.code == "200" || false
       published_reports = success ? reports : []
 
-      yield (success, published_reports)
+      block.call(success, published_reports)
     end
 
     private
