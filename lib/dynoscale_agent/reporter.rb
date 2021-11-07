@@ -17,8 +17,8 @@ module DynoscaleAgent
       	loop do
           if recorder.publishable_reports.any?
             # publish measurements if its been a minute
-            @@api_wrapper.publish_reports(recorder.publishable_reports) do |success?, published_reports|
-              if success?
+            @@api_wrapper.publish_reports(recorder.publishable_reports) do |success, published_reports|
+              if success
               	recorder.remove_published_reports!(published_reports)
                 sleep REPORT_PUBLISH_FREQ
               else
