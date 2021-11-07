@@ -15,6 +15,7 @@ module DynoscaleAgent
 
       @@reporter_thread ||= Thread.start do
       	loop do
+      	  puts "Tick: #{Time.now}"
           if recorder.publishable_reports.any?
             # publish measurements if its been a minute
             @@api_wrapper.publish_reports(recorder.publishable_reports) do |success, published_reports|
