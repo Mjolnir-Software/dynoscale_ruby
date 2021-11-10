@@ -16,6 +16,10 @@ module DynoscaleAgent
 
     def call(env)
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
+      unless ENV['DYNOSCALE_URL']
+        puts "Missing DYNOSCALE_URL environment variable"
+        return @app.call(env)
+      end 
       return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']
       return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
       
