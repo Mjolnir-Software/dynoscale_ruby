@@ -2,6 +2,7 @@
 
 require 'dynoscale_agent/request_calculator'
 require 'dynoscale_agent/reporter'
+require 'dynoscale_agent/recorder'
 
 module DynoscaleAgent
   class Middleware
@@ -18,9 +19,9 @@ module DynoscaleAgent
       return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']
       return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
       
-      recorder = Recorder.instance
-      recorder.record!
-      Reporter.start!(env, recorder) if Reporter.running?
+      Recorder.record!(env)
+      Reporter.start!(env, Recorder) unless Reporter.running?
+
 
       @app.call(env)
     end

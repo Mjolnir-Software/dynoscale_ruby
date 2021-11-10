@@ -1,9 +1,10 @@
 require 'uri'
 require 'net/http'
+require 'net/https'
 
 module DynoscaleAgent
   class ApiWrapper
-    def initializer(dyno, url, app_name)
+    def initialize(dyno, url, app_name)
       @dyno     = dyno
       @url      = URI(url)
       @app_name = app_name
@@ -16,11 +17,11 @@ module DynoscaleAgent
                   "X_APP_NAME": @app_name
                 }
 
-      body = reports.reduce(""){|r| r.to_csv}
+      body = reports.reduce(""){|t, r| "#{t}#{r.to_csv}"}
 
-	  begin
-	    response = request(headers, body)
-	  rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+	    begin
+	      response = request(headers, body)
+	    rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         # ignore and let the retry mechanism handle it
       end
 
@@ -33,13 +34,9 @@ module DynoscaleAgent
     private
 
     def request(headers, body)
-      if @url.scheme == "http"
-        http = Net::HTTP.new(@url.host, @url.port)
-        request = Net::HTTP::Post.new(@url, headers)
-      else
-        https = Net::HTTPS.new(@url.host, @url.port)
-        request = Net::HTTPS::Post.new(@url, headers)
-      end
+      http = Net::HTTP.new(@url.host, @url.port)
+      http.use_ssl = true if @url.scheme == "https"
+      request = Net::HTTP::Post.new(@url, headers)
 
       request.body = body
       http.request(request)
