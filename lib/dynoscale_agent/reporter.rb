@@ -1,6 +1,5 @@
 require 'dynoscale_agent/api_wrapper'
 require 'dynoscale_agent/recorder'
-require 'pry'
 
 module DynoscaleAgent
   class Reporter
