@@ -1,16 +1,16 @@
 require 'dynoscale_agent/report'
 require 'dynoscale_agent/request_calculator'
+require 'singleton'
 
 module DynoscaleAgent
   class Recorder
     include Singleton
 
-    REPORT_RECORDING_FREQ = 1.minute
+    REPORT_RECORDING_FREQ = 1 * 60 # minutes
 
-    def self.record!(env)
+    def self.record!(request_calculator)
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
       dyno = is_dev ? "dev.1" : ENV['DYNO']
-      request_calculator ||= RequestCalculator.new(env)
       
       queue_time = request_calculator.request_queue_time
       current_time = Time.now
@@ -23,6 +23,7 @@ module DynoscaleAgent
 
       @@reports ||= {}
       @@reports[@@current_report.publish_timestamp] = @@current_report
+      @@reports.values
     end
 
     def self.reports

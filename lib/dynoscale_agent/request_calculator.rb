@@ -4,15 +4,15 @@ module DynoscaleAgent
       @env = env
     end
 
-    def request_queue_time
+    def request_queue_time(time_now = Time.now)
       request_start     = @env['HTTP_X_REQUEST_START']
       raise MissingRequestStartError, "The X_REQUEST_START header is missing from the request" if request_start.nil?
       request_body_wait = @env['puma.request_body_wait'] || 0
 
-      request_start_string = request_start.match(/([0-9])+/).try(:[], 0)
+      request_start_string = request_start.match(/([0-9])+/)&.[](0)
       start_at = Time.at(request_start_string.to_i / 1000)
 
-      (Time.now - start_at).to_i + request_body_wait.to_i
+      (time_now - start_at).to_i + request_body_wait.to_i
     end
   end
   class MissingRequestStartError < StandardError

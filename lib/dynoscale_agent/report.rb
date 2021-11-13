@@ -3,7 +3,7 @@ require 'dynoscale_agent/measurement'
 module DynoscaleAgent
   class Report
 
-  	MEASUREMENT_TTL = 5.minutes # minutes
+  	REPORT_TTL = 5 * 60 # minutes
 
     attr_reader :publish_timestamp, :measurements
 
@@ -12,7 +12,7 @@ module DynoscaleAgent
       @publish_timestamp = publish_timestamp
   	end
 
-  	def add_measurement(current_time, queue_time)
+  	def add_measurement(current_time = Time.now, queue_time)
       @measurements << Measurement.new(current_time.to_i, queue_time)
   	end
 
@@ -25,7 +25,7 @@ module DynoscaleAgent
     end
 
   	def expired?(current_time = Time.now)
-      publish_timestamp < (current_time.to_i - MEASUREMENT_TTL)
+      publish_timestamp < (current_time - REPORT_TTL)
   	end
 
   	def to_csv

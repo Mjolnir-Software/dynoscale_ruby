@@ -10,7 +10,7 @@ module DynoscaleAgent
       @app_name = app_name
     end
 
-    def publish_reports(reports, current_time = Time.now, &block)
+    def publish_reports(reports, current_time = Time.now, http = Net::HTTP.new(@url.host, @url.port), &block)
       headers = { "Content-Type": "text/csv",
                   "X_REQUEST_START": "t=#{current_time.to_i}",
                   "X_DYNO": @dyno,
@@ -20,8 +20,8 @@ module DynoscaleAgent
       body = reports.reduce(""){|t, r| "#{t}#{r.to_csv}"}
 
 	    begin
-	      response = request(headers, body)
-	    rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+	      response = request(http, headers, body)
+	    rescue Timeout::Error, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         # ignore and let the retry mechanism handle it
       end
 
@@ -33,8 +33,7 @@ module DynoscaleAgent
 
     private
 
-    def request(headers, body)
-      http = Net::HTTP.new(@url.host, @url.port)
+    def request(http, headers, body)
       http.use_ssl = true if @url.scheme == "https"
       request = Net::HTTP::Post.new(@url, headers)
 
