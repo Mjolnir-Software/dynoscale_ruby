@@ -8,7 +8,7 @@ module DynoscaleAgent
 
     REPORT_RECORDING_FREQ = 1 * 60 # minutes
 
-    def self.record!(request_calculator)
+    def self.record!(request_calculator, workers)
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
       dyno = is_dev ? "dev.1" : ENV['DYNO']
       
@@ -18,7 +18,16 @@ module DynoscaleAgent
       @@current_report ||= Report.new(current_time + REPORT_RECORDING_FREQ)
       
       if queue_time
-        @@current_report.add_measurement(current_time, queue_time)
+        @@current_report.add_measurement(current_time, queue_time, 'web', nil)
+      end
+
+      workers.each do |worker|
+        if worker.enabled?
+          queue_latencies = worker.queue_latencies
+        end
+        queue_latencies.each do |queue, latency, depth|
+          @@current_report.add_measurement(current_time, queue_time, worker.name, { queue: queue, depth: depth }.to_json)
+        end
       end
 
       @@reports ||= {}

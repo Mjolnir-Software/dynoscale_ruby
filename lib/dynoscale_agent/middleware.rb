@@ -3,6 +3,7 @@
 require 'dynoscale_agent/request_calculator'
 require 'dynoscale_agent/reporter'
 require 'dynoscale_agent/recorder'
+Dir["dynoscale_agent/worker/*.rb"].each {|file| require file }
 
 module DynoscaleAgent
   class Middleware
@@ -26,7 +27,8 @@ module DynoscaleAgent
       return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
 
       request_calculator = RequestCalculator.new(env)
-      Recorder.record!(request_calculator)
+      workers =  DynoscaleAgent::Worker.constants.select{|c| DynoscaleAgent::Worker.const_get(c).is_a? Class }.map{|c| DynoscaleAgent::Worker.const_get(c) }
+      Recorder.record!(request_calculator, workers)
 
       api_wrapper = DynoscaleAgent::ApiWrapper.new(dyno, ENV['DYNOSCALE_URL'], ENV['HEROKU_APP_NAME'])
       Reporter.start!(Recorder, api_wrapper) unless Reporter.running?

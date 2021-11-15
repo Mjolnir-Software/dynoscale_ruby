@@ -3,10 +3,10 @@ require 'dynoscale_agent/report'
 RSpec.describe DynoscaleAgent::Report do
   let(:report) { DynoscaleAgent::Report.new(Time.new(2021,11,11,10,51,0, "-05:00")) }
   let(:measurment_time) {  Time.new(2021,11,11,10,50,0, "-05:00") }
-  let(:measurement) { double(:measurement, timestamp: measurment_time, queue_time: 1) }
+  let(:measurement) { double(:measurement, timestamp: measurment_time, metric: 1, source: "web", metadata: "") }
   context "#add_measurement" do
   	it "should add measurement to report" do
-      expect{ report.add_measurement(measurment_time, 1) }.to change(report, :measurements)
+      expect{ report.add_measurement(measurment_time, 1, '', '') }.to change(report, :measurements)
   	end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe DynoscaleAgent::Report do
       report.add_measurements([measurement])
   	end
     it "should return serialized measurements" do
-      expect(report.to_csv).to eql("#{measurement.timestamp},#{measurement.queue_time}\n")
+      expect(report.to_csv).to eql("#{measurement.timestamp},#{measurement.metric},#{measurement.source},#{measurement.metadata}\n")
     end
   end
   

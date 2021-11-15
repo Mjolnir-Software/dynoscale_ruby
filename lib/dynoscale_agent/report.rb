@@ -12,8 +12,8 @@ module DynoscaleAgent
       @publish_timestamp = publish_timestamp
   	end
 
-  	def add_measurement(current_time = Time.now, queue_time)
-      @measurements << Measurement.new(current_time.to_i, queue_time)
+  	def add_measurement(current_time = Time.now, metric, source, metadata)
+      @measurements << Measurement.new(current_time.to_i, metric, source, metadata)
   	end
 
   	def add_measurements(measurements)
@@ -29,7 +29,7 @@ module DynoscaleAgent
   	end
 
   	def to_csv
-      @measurements.reduce(""){|t, m| "#{t}#{m.timestamp},#{m.queue_time}\n"}
+      @measurements.reduce(""){|t, m| "#{t}#{m.timestamp},#{m.metric},#{m.source},#{m.metadata}\n"}
   	end
   end
 end

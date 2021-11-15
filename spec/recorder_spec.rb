@@ -5,9 +5,10 @@ RSpec.describe DynoscaleAgent::Recorder do
   context ".record!" do
   	let(:request_queue_time) { 1 }
   	let(:request_calculator) { double(:request_calculator, request_queue_time: request_queue_time) }
+    let(:workers) { [] }
     context "when there are no current reports" do
       it "should create a new report" do
-      	recorder = DynoscaleAgent::Recorder.record!(request_calculator)
+      	recorder = DynoscaleAgent::Recorder.record!(request_calculator, workers)
       	expect(recorder).to have_attributes(size: 1)
       	expect(recorder).to all(be_a(DynoscaleAgent::Report))
       end
@@ -15,8 +16,8 @@ RSpec.describe DynoscaleAgent::Recorder do
 
     context "when there is a current report" do
       it "should not create a new report" do
-      	DynoscaleAgent::Recorder.record!(request_calculator)
-        recorder = DynoscaleAgent::Recorder.record!(request_calculator)
+      	DynoscaleAgent::Recorder.record!(request_calculator, workers)
+        recorder = DynoscaleAgent::Recorder.record!(request_calculator, workers)
         expect(recorder).to have_attributes(size: 1)
       	expect(recorder).to all(be_a(DynoscaleAgent::Report))
       end
@@ -24,8 +25,8 @@ RSpec.describe DynoscaleAgent::Recorder do
 
     context "when there is a valid queue time" do
 	  it "should record the measurement" do
-        recorder = DynoscaleAgent::Recorder.record!(request_calculator)
-        expect(recorder.first.measurements.first.queue_time).to eq(request_queue_time)
+        recorder = DynoscaleAgent::Recorder.record!(request_calculator, workers)
+        expect(recorder.first.measurements.first.metric).to eq(request_queue_time)
 	  end
     end
   end
@@ -33,10 +34,11 @@ RSpec.describe DynoscaleAgent::Recorder do
   context ".reports" do
   	let(:request_queue_time) { 1 }
   	let(:request_calculator) { double(:request_calculator, request_queue_time: request_queue_time) }
+    let(:workers) { [] }
 
   	context "when there is a report" do
       it "should return reports" do
-        DynoscaleAgent::Recorder.record!(request_calculator)
+        DynoscaleAgent::Recorder.record!(request_calculator, workers)
         expect(DynoscaleAgent::Recorder.reports).to have_attributes(size: 1)
       	expect(DynoscaleAgent::Recorder.reports).to all(be_a(DynoscaleAgent::Report))
       end
@@ -46,10 +48,11 @@ RSpec.describe DynoscaleAgent::Recorder do
   context ".remove_published_reports!" do
   	let(:request_queue_time) { 1 }
   	let(:request_calculator) { double(:request_calculator, request_queue_time: request_queue_time) }
+    let(:workers) { [] }
 
   	context "when publish_timestamp of a report parameter matches a report publish_timestamp" do
       it "should delete the report" do
-        DynoscaleAgent::Recorder.record!(request_calculator)
+        DynoscaleAgent::Recorder.record!(request_calculator, workers)
 
         reports = DynoscaleAgent::Recorder.reports
         DynoscaleAgent::Recorder.remove_published_reports!(reports)
@@ -60,8 +63,9 @@ RSpec.describe DynoscaleAgent::Recorder do
 
     context "when publish_timestamp of a report parameter does not match a report publish_timestamp" do
       let(:report) { double("report", publish_timestamp: 1) }
+      let(:workers) { [] }
       it "should not delete the report" do
-        DynoscaleAgent::Recorder.record!(request_calculator)
+        DynoscaleAgent::Recorder.record!(request_calculator, workers)
 
         DynoscaleAgent::Recorder.remove_published_reports!([report])
 
