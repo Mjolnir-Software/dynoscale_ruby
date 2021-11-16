@@ -3,7 +3,8 @@
 require 'dynoscale_agent/request_calculator'
 require 'dynoscale_agent/reporter'
 require 'dynoscale_agent/recorder'
-Dir["dynoscale_agent/worker/*.rb"].each {|file| require file }
+require 'dynoscale_agent/worker/sidekiq'
+require 'dynoscale_agent/worker/resque'
 
 module DynoscaleAgent
   class Middleware
