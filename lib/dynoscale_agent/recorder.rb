@@ -6,7 +6,7 @@ require 'dynoscale_agent/logger'
 module DynoscaleAgent
   class Recorder
     include Singleton
-    include Logger
+    extend Logger
 
     REPORT_RECORDING_FREQ = 1 * 60 # minutes
 
@@ -21,7 +21,7 @@ module DynoscaleAgent
       
       if queue_time
         @@current_report.add_measurement(current_time, queue_time, 'web', nil)
-        logger.debug "Web measurement #{current_time}, #{queue_time} recorded in report."
+        Logger.logger.debug "Web measurement #{current_time}, #{queue_time} recorded in report."
       end
 
       workers.each do |worker|
@@ -29,7 +29,7 @@ module DynoscaleAgent
           queue_latencies = worker.queue_latencies
           queue_latencies.each do |queue, latency, depth|
             @@current_report.add_measurement(current_time, queue_time, "#{worker.name}:#{queue}", nil)
-            logger.debug "#{worker.name.capitalize} worker measurement #{current_time}, #{queue_time} recorded in report."
+            Logger.logger.debug "#{worker.name.capitalize} worker measurement #{current_time}, #{queue_time} recorded in report."
           end
         end
       end
