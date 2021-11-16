@@ -24,9 +24,9 @@ module DynoscaleAgent
       workers.each do |worker|
         if worker.enabled?
           queue_latencies = worker.queue_latencies
-        end
-        queue_latencies.each do |queue, latency, depth|
-          @@current_report.add_measurement(current_time, queue_time, worker.name, { queue: queue, depth: depth }.to_json)
+          queue_latencies.each do |queue, latency, depth|
+            @@current_report.add_measurement(current_time, queue_time, worker.name, { queue: queue, depth: depth }.to_json)
+          end
         end
       end
 
