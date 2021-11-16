@@ -19,9 +19,9 @@ module DynoscaleAgent
 
       body = reports.reduce(""){|t, r| "#{t}#{r.to_csv}"}
 
-	    begin
-	      response = request(http, headers, body)
-	    rescue Timeout::Error, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+      begin
+        response = request(http, headers, body)
+      rescue Timeout::Error, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         # ignore and let the retry mechanism handle it
       end
 

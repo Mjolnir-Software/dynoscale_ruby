@@ -5,9 +5,12 @@ require 'dynoscale_agent/reporter'
 require 'dynoscale_agent/recorder'
 require 'dynoscale_agent/worker/sidekiq'
 require 'dynoscale_agent/worker/resque'
+require 'dynoscale_agent/logger'
+require "logger"
 
 module DynoscaleAgent
   class Middleware
+    include DynoscaleAgent::Logger
 
     MEASUREMENT_TTL = 5 # minutes
 
@@ -21,7 +24,7 @@ module DynoscaleAgent
       dyno = is_dev ? "dev.1" : ENV['DYNO']
 
       unless ENV['DYNOSCALE_URL']
-        puts "Missing DYNOSCALE_URL environment variable"
+        logger.fatal "Missing DYNOSCALE_URL environment variable"
         return @app.call(env)
       end 
       return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']

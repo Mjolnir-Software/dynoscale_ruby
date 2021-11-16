@@ -1,9 +1,11 @@
 require 'dynoscale_agent/api_wrapper'
 require 'dynoscale_agent/recorder'
+require 'dynoscale_agent/logger'
 
 module DynoscaleAgent
   class Reporter
     include Singleton
+    include DynoscaleAgent::Logger
 
     # Production delays
     REPORT_PUBLISH_FREQ = 30 # seconds
@@ -16,8 +18,10 @@ module DynoscaleAgent
             api_wrapper.publish_reports(recorder.reports) do |success, published_reports|
               if success
               	recorder.remove_published_reports!(published_reports)
+                @logger.debug "Report publish was successful"
                 sleep report_publish_freq
               else
+                @logger.error "Report publish failed"
               	sleep report_publish_retry_freq
               end
             end
