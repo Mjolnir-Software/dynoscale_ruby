@@ -3,6 +3,7 @@
 require 'dynoscale_agent/request_calculator'
 require 'dynoscale_agent/reporter'
 require 'dynoscale_agent/recorder'
+require 'dynoscale_agent/worker'
 Dir["dynoscale_agent/worker/*.rb"].each {|file| require file }
 
 module DynoscaleAgent
