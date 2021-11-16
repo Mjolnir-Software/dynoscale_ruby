@@ -16,9 +16,9 @@ module DynoscaleAgent
 
     def assign_level
       if ENV['DYNOSCALE_DEV']
-      	@logger.level = Logger::DEBUG
+      	@logger.level = ::Logger::DEBUG
       else
-        @logger.level = Logger::WARN
+        @logger.level = ::Logger::WARN
       end
     end
   end
