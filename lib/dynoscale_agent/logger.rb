@@ -1,7 +1,7 @@
 require 'logger'
 
 module DynoscaleAgent
-  class Logger
+  module Logger
     def logger
       @logger ||= if defined?(Rails)
         Rails.logger
