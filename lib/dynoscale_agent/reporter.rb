@@ -18,10 +18,10 @@ module DynoscaleAgent
             api_wrapper.publish_reports(recorder.reports) do |success, published_reports|
               if success
               	recorder.remove_published_reports!(published_reports)
-                @logger.debug "Report publish was successful"
+                logger.debug "Report publish was successful"
                 sleep report_publish_freq
               else
-                @logger.error "Report publish failed"
+                logger.error "Report publish failed"
               	sleep report_publish_retry_freq
               end
             end

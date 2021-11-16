@@ -21,7 +21,7 @@ module DynoscaleAgent
       
       if queue_time
         @@current_report.add_measurement(current_time, queue_time, 'web', nil)
-        @logger.debug "Web measurement #{current_time}, #{queue_time} recorded in report."
+        logger.debug "Web measurement #{current_time}, #{queue_time} recorded in report."
       end
 
       workers.each do |worker|
@@ -29,7 +29,7 @@ module DynoscaleAgent
           queue_latencies = worker.queue_latencies
           queue_latencies.each do |queue, latency, depth|
             @@current_report.add_measurement(current_time, queue_time, "#{worker.name}:#{queue}", nil)
-            @logger.debug "#{worker.name.capitalize} worker measurement #{current_time}, #{queue_time} recorded in report."
+            logger.debug "#{worker.name.capitalize} worker measurement #{current_time}, #{queue_time} recorded in report."
           end
         end
       end
