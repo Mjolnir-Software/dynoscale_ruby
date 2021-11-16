@@ -5,7 +5,7 @@ require 'dynoscale_agent/logger'
 module DynoscaleAgent
   class Reporter
     include Singleton
-    include DynoscaleAgent::Logger
+    include Logger
 
     # Production delays
     REPORT_PUBLISH_FREQ = 30 # seconds

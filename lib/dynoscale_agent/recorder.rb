@@ -6,7 +6,7 @@ require 'dynoscale_agent/logger'
 module DynoscaleAgent
   class Recorder
     include Singleton
-    include DynoscaleAgent::Logger
+    include Logger
 
     REPORT_RECORDING_FREQ = 1 * 60 # minutes
 

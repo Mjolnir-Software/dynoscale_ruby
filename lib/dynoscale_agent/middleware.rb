@@ -10,7 +10,7 @@ require "logger"
 
 module DynoscaleAgent
   class Middleware
-    include DynoscaleAgent::Logger
+    include Logger
 
     MEASUREMENT_TTL = 5 # minutes
 
