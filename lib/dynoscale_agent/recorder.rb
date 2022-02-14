@@ -8,7 +8,7 @@ module DynoscaleAgent
     include Singleton
     extend Logger
 
-    REPORT_RECORDING_FREQ = 1 * 60 # minutes
+    REPORT_RECORDING_FREQ = 15
 
     def self.record!(request_calculator, workers)
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
@@ -40,7 +40,7 @@ module DynoscaleAgent
     end
 
     def self.reports
-      @@reports.values || []
+      @@reports&.values || []
     end
 
     def self.remove_published_reports!(reports)
