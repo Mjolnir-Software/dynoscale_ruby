@@ -25,7 +25,10 @@ module DynoscaleAgent
         # ignore and let the retry mechanism handle it
       end
 
-      success = response&.code == "200" || false
+      success = (response&.code&.to_i >= 200 && response&.code&.to_i < 300) || false
+
+
+      #config = JSON.parse(response&.body || "{}")['config']
       published_reports = success ? reports : []
 
       block.call(success, published_reports)
