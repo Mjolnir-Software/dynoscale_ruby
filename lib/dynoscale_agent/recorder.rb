@@ -40,7 +40,7 @@ module DynoscaleAgent
     end
 
     def self.reports
-      @@reports ||= []
+      @@reports ||= {}
       @@reports.values || []
     end
 
