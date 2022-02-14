@@ -40,7 +40,8 @@ module DynoscaleAgent
     end
 
     def self.reports
-      @@reports&.values || []
+      @@reports ||= []
+      @@reports.values || []
     end
 
     def self.remove_published_reports!(reports)
