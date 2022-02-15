@@ -48,7 +48,6 @@ module DynoscaleAgent
       else
         REPORT_PUBLISH_FREQ
       end
-      is_dev ? 0 : REPORT_PUBLISH_FREQ
     end
 
     def self.report_publish_retry_freq
