@@ -8,7 +8,7 @@ RSpec.describe DynoscaleAgent::Reporter do
   	let(:recorder) { double(:recorder, reports: [report], remove_published_reports!: []) }
   	let(:api_wrapper) do
   	  dbl = double(:api_wrapper)
-  	  allow(dbl).to receive(:publish_reports).and_yield(true, reports)
+  	  allow(dbl).to receive(:publish_reports).and_yield(true, reports, { "publish_frequency" => 30 })
   	  dbl
   	end
     before do

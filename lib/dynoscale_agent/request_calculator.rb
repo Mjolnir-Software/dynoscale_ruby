@@ -13,6 +13,7 @@ module DynoscaleAgent
       else
         request_start = @env['HTTP_X_REQUEST_START']
       end
+      raise MissingRequestStartError if request_start.nil?
       
       request_body_wait = @env['puma.request_body_wait'] || 0
 

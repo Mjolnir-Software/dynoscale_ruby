@@ -1,6 +1,7 @@
 require 'uri'
 require 'net/http'
 require 'net/https'
+require 'json'
 
 module DynoscaleAgent
   class ApiWrapper
@@ -28,10 +29,10 @@ module DynoscaleAgent
       success = (response&.code&.to_i >= 200 && response&.code&.to_i < 300) || false
 
 
-      #config = JSON.parse(response&.body || "{}")['config']
+      config = JSON.parse(response&.body || "{}")["config"] || {}
       published_reports = success ? reports : []
 
-      block.call(success, published_reports)
+      block.call(success, published_reports, config)
     end
 
     private

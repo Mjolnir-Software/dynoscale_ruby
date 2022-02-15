@@ -2,14 +2,18 @@ require 'dynoscale_agent/request_calculator'
 
 RSpec.describe DynoscaleAgent::RequestCalculator do
   context "#request_queue_time" do
-  	let(:request_body_wait) { nil }
-  	let(:request_start) { 1 }
-  	let(:now) { Time.new(2021,11,11,10,51,0, "-05:00") }
-  	let(:request_calculator) do 
-  	  env = { "HTTP_X_REQUEST_START" => request_start,
-  	  	      "puma.request_body_wait" => request_body_wait }
-  	  DynoscaleAgent::RequestCalculator.new(env)
-  	end
+    let(:request_body_wait) { nil }
+    let(:request_start) { 1 }
+    let(:now) { Time.new(2021,11,11,10,51,0, "-05:00") }
+    let(:request_calculator) do 
+      env = { "HTTP_X_REQUEST_START" => request_start,
+  	      "puma.request_body_wait" => request_body_wait }
+      DynoscaleAgent::RequestCalculator.new(env)
+    end
+
+    before do
+      ENV['DYNOSCALE_DEV'] = "false"
+    end
 
     context "when HTTP_X_REQUEST_START header is nil" do
       let(:request_start) { nil }

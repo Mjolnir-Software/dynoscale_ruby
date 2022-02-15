@@ -8,16 +8,17 @@ module DynoscaleAgent
     extend Logger
 
     # Production delays
-    REPORT_PUBLISH_FREQ = 30 # seconds
+    REPORT_PUBLISH_FREQ = 2*60 # seconds
     REPORT_PUBLISH_RETRY_FREQ = 15 #seconds
 
     def self.start!(recorder, api_wrapper, break_after_first_iteration: false)
       @@reporter_thread ||= Thread.start do
       	loop do
           if recorder.reports.any?(&:ready_to_publish?)
-            api_wrapper.publish_reports(recorder.reports) do |success, published_reports|
+            api_wrapper.publish_reports(recorder.reports) do |success, published_reports, config|
               if success
               	recorder.remove_published_reports!(published_reports)
+                @@config = config
                 Logger.logger.debug "Report publish was successful"
                 sleep report_publish_freq
               else
@@ -40,6 +41,13 @@ module DynoscaleAgent
 
     def self.report_publish_freq
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
+      if is_dev
+        0
+      elsif @@config && @@config['publish_frequency']
+        @@config['publish_frequency']
+      else
+        REPORT_PUBLISH_FREQ
+      end
       is_dev ? 0 : REPORT_PUBLISH_FREQ
     end
 
