@@ -12,9 +12,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
   spec.metadata = {
-    "homepage_uri" => "https://dynoscale.com",
+    "homepage_uri" => "https://dynoscale.net",
     "bug_tracker_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent/issues",
-    "documentation_uri" => "https://dynoscale.com/docs",
+    "documentation_uri" => "https://dynoscale.net/getting_started",
     "changelog_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent/blob/master/CHANGELOG.md",
     "source_code_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent",
   }
