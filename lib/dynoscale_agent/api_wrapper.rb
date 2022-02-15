@@ -13,6 +13,7 @@ module DynoscaleAgent
 
     def publish_reports(reports, current_time = Time.now, http = Net::HTTP.new(@url.host, @url.port), &block)
       headers = { "Content-Type": "text/csv",
+                  "User-Agent": "dynoscale-ruby;#{Gem.loaded_specs["dynoscale_agent"].version.to_s}",
                   "X_REQUEST_START": "t=#{current_time.to_i}",
                   "X_DYNO": @dyno,
                   "X_APP_NAME": @app_name
