@@ -1,44 +1,34 @@
-# DynoscaleAgent
+# Dynoscale Agent
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dynoscale_agent`. To experiment with that code, run `bin/console` for an interactive prompt.
+#### Simple yet efficient scaling agent for Ruby/Rails apps on Heroku
 
-TODO: Delete this and the text above, and describe your gem
+# Getting Started
 
-## Installation
+1. Add __dynoscale__ to your app on Heroku: `heroku addons:create dscale`
+2. Add the agent Gem to your Gemfile: `gem 'dynoscale_agent'`
+3. Run bundle:  `bundle install`
+4. Profit! (Literally, this will save you money 😏
 
-Add this line to your application's Gemfile:
+The environment variable `DYNOSCALE_URL` must be set in order for your application to communicate with Dynoscale Servers.
 
-```ruby
-gem 'dynoscale_agent'
-```
+# Non-Rails Rack Based Apps
 
-And then execute:
+In addition to the above steps, you will need to `require 'dynoscale_agent/middleware'` and add the `DynoscaleAgent::Middleware` before the `Rack::Runtime` in your application.
 
-    $ bundle install
+# Data Shared with Dynoscale
 
-Or install it yourself as:
+* Dyno Name
+* Application Name
+* queue measurment data for web and worker dynos
 
-    $ gem install dynoscale_agent
+# Worker Adapter
 
-## Usage
+In addition to Web scaling, Dynoscale collects data on Worker jobs too. At this time Sidekiq and Resque are currently supported.
 
-TODO: Write usage instructions here
+# Contributing
 
-## Development
+Bug reports and pull requests are welcome on GitHub at https://github.com/Mjolnir-Software/dynoscale_agent.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+# License
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/dynoscale_agent. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/dynoscale_agent/blob/master/CODE_OF_CONDUCT.md).
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the DynoscaleAgent project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/dynoscale_agent/blob/master/CODE_OF_CONDUCT.md).
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT)
