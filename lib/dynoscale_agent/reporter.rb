@@ -44,7 +44,7 @@ module DynoscaleAgent
       if is_dev
         0
       elsif @@config && @@config['publish_frequency']
-        @@config['publish_frequency']
+        @@config['publish_frequency']&.to_i || REPORT_PUBLISH_FREQ
       else
         REPORT_PUBLISH_FREQ
       end
