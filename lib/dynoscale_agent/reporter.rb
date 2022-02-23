@@ -8,7 +8,7 @@ module DynoscaleAgent
     extend Logger
 
     # Production delays
-    REPORT_PUBLISH_FREQ = 2*60 # seconds
+    REPORT_PUBLISH_FREQ = 30 # seconds
     REPORT_PUBLISH_RETRY_FREQ = 15 #seconds
 
     def self.start!(recorder, api_wrapper, break_after_first_iteration: false)
