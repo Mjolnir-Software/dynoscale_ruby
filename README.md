@@ -19,7 +19,7 @@ In addition to the above steps, you will need to `require 'dynoscale_agent/middl
 
 * Dyno Name
 * Application Name
-* queue measurment data for web and worker dynos
+* queue measurement data for web and worker dynos
 
 ## Worker Adapter
 
