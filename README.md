@@ -1,11 +1,11 @@
-# Dynoscale Agent
+# Dynoscale Ruby
 
 #### Simple yet efficient scaling agent for Ruby/Rails apps on Heroku
 
 ## Getting Started
 
 1. Add __dynoscale__ to your app on Heroku: `heroku addons:create dscale`
-2. Add the agent Gem to your Gemfile: `gem 'dynoscale_agent'`
+2. Add the agent Gem to your Gemfile: `gem 'dynoscale_ruby'`
 3. Run bundle:  `bundle install`
 4. Profit! (Literally, this will save you money 😏
 
@@ -13,7 +13,7 @@ The environment variable `DYNOSCALE_URL` must be set in order for your applicati
 
 ## Non-Rails Rack Based Apps
 
-In addition to the above steps, you will need to `require 'dynoscale_agent/middleware'` and add the `DynoscaleAgent::Middleware` before the `Rack::Runtime` in your application.
+In addition to the above steps, you will need to `require 'dynoscale_ruby/middleware'` and add the `DynoscaleRuby::Middleware` before the `Rack::Runtime` in your application.
 
 ## Data Shared with Dynoscale
 
@@ -27,7 +27,7 @@ In addition to Web scaling, Dynoscale collects data on Worker jobs too. At this 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Mjolnir-Software/dynoscale_agent.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Mjolnir-Software/dynoscale_ruby.
 
 ## License
 
