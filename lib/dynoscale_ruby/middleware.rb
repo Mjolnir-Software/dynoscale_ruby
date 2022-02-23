@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'dynoscale_agent/request_calculator'
-require 'dynoscale_agent/reporter'
-require 'dynoscale_agent/recorder'
-require 'dynoscale_agent/worker/sidekiq'
-require 'dynoscale_agent/worker/resque'
-require 'dynoscale_agent/logger'
+require 'dynoscale_ruby/request_calculator'
+require 'dynoscale_ruby/reporter'
+require 'dynoscale_ruby/recorder'
+require 'dynoscale_ruby/worker/sidekiq'
+require 'dynoscale_ruby/worker/resque'
+require 'dynoscale_ruby/logger'
 
-module DynoscaleAgent
+module DynoscaleRuby
   class Middleware
     include Logger
 
@@ -30,10 +30,10 @@ module DynoscaleAgent
       return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
 
       request_calculator = RequestCalculator.new(env)
-      workers =  DynoscaleAgent::Worker.constants.select{|c| DynoscaleAgent::Worker.const_get(c).is_a? Class }.map{|c| DynoscaleAgent::Worker.const_get(c) }
+      workers =  DynoscaleRuby::Worker.constants.select{|c| DynoscaleRuby::Worker.const_get(c).is_a? Class }.map{|c| DynoscaleRuby::Worker.const_get(c) }
       Recorder.record!(request_calculator, workers)
 
-      api_wrapper = DynoscaleAgent::ApiWrapper.new(dyno, ENV['DYNOSCALE_URL'], ENV['HEROKU_APP_NAME'])
+      api_wrapper = DynoscaleRuby::ApiWrapper.new(dyno, ENV['DYNOSCALE_URL'], ENV['HEROKU_APP_NAME'])
       Reporter.start!(Recorder, api_wrapper) unless Reporter.running?
 
 

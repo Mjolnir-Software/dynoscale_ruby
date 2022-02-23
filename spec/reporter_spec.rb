@@ -1,7 +1,7 @@
-require 'dynoscale_agent/reporter'
-require 'dynoscale_agent/report'
+require 'dynoscale_ruby/reporter'
+require 'dynoscale_ruby/report'
 
-RSpec.describe DynoscaleAgent::Reporter do
+RSpec.describe DynoscaleRuby::Reporter do
   context ".start!" do
   	let(:report) { double(:report, ready_to_publish?: true, to_csv: "1635608625,1") }
   	let(:reports) { [report] }
@@ -16,7 +16,7 @@ RSpec.describe DynoscaleAgent::Reporter do
     end
     context "when reports are ready for publish" do
       it "should publish reports" do
-        DynoscaleAgent::Reporter.start!(recorder, api_wrapper, break_after_first_iteration: true).join
+        DynoscaleRuby::Reporter.start!(recorder, api_wrapper, break_after_first_iteration: true).join
       end
     end
   end

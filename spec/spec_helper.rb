@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "dynoscale_agent"
+require "dynoscale_ruby"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

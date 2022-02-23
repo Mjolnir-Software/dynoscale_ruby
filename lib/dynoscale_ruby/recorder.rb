@@ -1,9 +1,9 @@
-require 'dynoscale_agent/report'
-require 'dynoscale_agent/request_calculator'
+require 'dynoscale_ruby/report'
+require 'dynoscale_ruby/request_calculator'
 require 'singleton'
-require 'dynoscale_agent/logger'
+require 'dynoscale_ruby/logger'
 
-module DynoscaleAgent
+module DynoscaleRuby
   class Recorder
     include Singleton
     extend Logger

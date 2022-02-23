@@ -1,4 +1,4 @@
-module DynoscaleAgent
+module DynoscaleRuby
   class RequestCalculator
 
     def initialize(env)

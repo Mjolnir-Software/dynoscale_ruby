@@ -1,22 +1,22 @@
-require_relative 'lib/dynoscale_agent/version'
+require_relative 'lib/dynoscale_ruby/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "dynoscale_agent"
-  spec.version       = DynoscaleAgent::VERSION
+  spec.name          = "dynoscale_ruby"
+  spec.version       = DynoscaleRuby::VERSION
   spec.authors       = ["Eric Abrahamsen"]
-  spec.email         = ["eric@dynoscale.com"]
+  spec.email         = ["eric@dynoscale.net"]
 
   spec.summary       = "This gem is an agent for the Dynoscale Heroku add-on."
-  spec.homepage      = "https://www.dynoscale.com"
+  spec.homepage      = "https://www.dynoscale.net"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
   spec.metadata = {
     "homepage_uri" => "https://dynoscale.net",
-    "bug_tracker_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent/issues",
+    "bug_tracker_uri" => "https://github.com/Mjolnir-Software/dynoscale_ruby/issues",
     "documentation_uri" => "https://dynoscale.net/getting_started",
-    "changelog_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent/blob/master/CHANGELOG.md",
-    "source_code_uri" => "https://github.com/Mjolnir-Software/dynoscale_agent",
+    "changelog_uri" => "https://github.com/Mjolnir-Software/dynoscale_ruby/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/Mjolnir-Software/dynoscale_ruby",
   }
 
   spec.version       = '1.0.0'

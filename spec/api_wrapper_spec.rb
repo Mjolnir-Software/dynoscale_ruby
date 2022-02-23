@@ -1,12 +1,12 @@
-require 'dynoscale_agent/api_wrapper'
-require 'dynoscale_agent/measurement'
-require 'dynoscale_agent/report'
+require 'dynoscale_ruby/api_wrapper'
+require 'dynoscale_ruby/measurement'
+require 'dynoscale_ruby/report'
 
-RSpec.describe DynoscaleAgent::ApiWrapper do
+RSpec.describe DynoscaleRuby::ApiWrapper do
 
   context "#publish_reports" do
-    let(:wrapper) { DynoscaleAgent::ApiWrapper.new("dyno.1", "https://www.example.com", "Test App") }
-    let(:report) { DynoscaleAgent::Report.new(1636595665) }
+    let(:wrapper) { DynoscaleRuby::ApiWrapper.new("dyno.1", "https://www.example.com", "Test App") }
+    let(:report) { DynoscaleRuby::Report.new(1636595665) }
     let(:reports) { [report] }
     context "when request is successful" do
       let(:http) do

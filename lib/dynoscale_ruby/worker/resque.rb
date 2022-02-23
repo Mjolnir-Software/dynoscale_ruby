@@ -1,6 +1,6 @@
 require 'singleton'
 
-module DynoscaleAgent
+module DynoscaleRuby
   module Worker
     class Resque
       include Singleton

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dynoscale_agent (0.1.0)
+    dynoscale_ruby (1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -106,7 +106,7 @@ DEPENDENCIES
   activesupport
   delayed_job
   delayed_job_active_record
-  dynoscale_agent!
+  dynoscale_ruby!
   pry-byebug
   que
   rake (~> 12.0)

@@ -1,8 +1,8 @@
-require 'dynoscale_agent/api_wrapper'
-require 'dynoscale_agent/recorder'
-require 'dynoscale_agent/logger'
+require 'dynoscale_ruby/api_wrapper'
+require 'dynoscale_ruby/recorder'
+require 'dynoscale_ruby/logger'
 
-module DynoscaleAgent
+module DynoscaleRuby
   class Reporter
     include Singleton
     extend Logger

@@ -1,6 +1,6 @@
 require 'logger'
 
-module DynoscaleAgent
+module DynoscaleRuby
   module Logger
 
     def self.logger

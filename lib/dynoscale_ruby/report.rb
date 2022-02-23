@@ -1,6 +1,6 @@
-require 'dynoscale_agent/measurement'
+require 'dynoscale_ruby/measurement'
 
-module DynoscaleAgent
+module DynoscaleRuby
   class Report
 
   	REPORT_TTL = 5 * 60 # minutes
