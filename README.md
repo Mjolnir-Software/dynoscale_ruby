@@ -1,6 +1,6 @@
 # Dynoscale Ruby
 
-#### Simple yet efficient scaling agent for Ruby/Rails apps on Heroku
+#### Simple yet efficient scaling agent for Ruby/Rails apps on Heroku.  A better [heroku autoscaling](https://dynoscale.net/blog/why-is-queue-time-more-important-than-backend-request-time-to-auto-scaling) alternative.
 
 ## Getting Started
 
