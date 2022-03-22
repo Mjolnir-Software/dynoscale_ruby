@@ -29,6 +29,13 @@ In addition to the above steps, you will need to `require 'dynoscale_ruby/middle
 
 In addition to Web scaling, Dynoscale collects data on Worker jobs too. At this time Sidekiq and Resque are currently supported.
 
+## Why use Dynoscale?
+
+Some blog posts about why Dynoscale is a helpful tool.
+
+* [Why is Queue Time more important than Backend Request Time to auto scaling?](https://dynoscale.net/blog/why-is-queue-time-more-important-than-backend-request-time-to-auto-scaling)
+* [How to setup heroku autoscaling in under 15 minutes?](https://dynoscale.net/blog/how-to-setup-heroku-autoscaling-in-under-15-minutes)
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Mjolnir-Software/dynoscale_ruby.
