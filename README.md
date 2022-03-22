@@ -11,6 +11,10 @@
 
 The environment variable `DYNOSCALE_URL` must be set in order for your application to communicate with Dynoscale Servers.
 
+## Status
+
+[![Gem Version](https://badge.fury.io/rb/dynoscale_ruby.svg)](https://badge.fury.io/rb/dynoscale_ruby)
+
 ## Non-Rails Rack Based Apps
 
 In addition to the above steps, you will need to `require 'dynoscale_ruby/middleware'` and add the `DynoscaleRuby::Middleware` before the `Rack::Runtime` in your application.
