@@ -35,6 +35,7 @@ Some blog posts about why Dynoscale is a helpful tool.
 
 * [Why is Queue Time more important than Backend Request Time to auto scaling?](https://dynoscale.net/blog/why-is-queue-time-more-important-than-backend-request-time-to-auto-scaling)
 * [How to setup heroku autoscaling in under 15 minutes?](https://dynoscale.net/blog/how-to-setup-heroku-autoscaling-in-under-15-minutes)
+* [Level up your Heroku autoscaling in 15 minutes](http://localhost:5008/blog/level-up-your-heroku-autoscaling-in-15-minutes)
 
 ## Contributing
 
