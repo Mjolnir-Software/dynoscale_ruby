@@ -28,7 +28,7 @@ module DynoscaleRuby
         if worker.enabled?
           queue_latencies = worker.queue_latencies
           queue_latencies.each do |queue, latency, depth|
-            @@current_report.add_measurement(current_time, latency, "#{worker.name}:#{queue}", nil)
+            @@current_report&.add_measurement(current_time, latency, "#{worker.name}:#{queue}", nil)
             Logger.logger.debug "#{worker.name.capitalize} worker measurement #{current_time}, #{latency} recorded in report."
           end
         end
