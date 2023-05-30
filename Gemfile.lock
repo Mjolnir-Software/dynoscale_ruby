@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dynoscale_ruby (1.0.0)
+    dynoscale_ruby (1.0.2)
 
 GEM
   remote: https://rubygems.org/
