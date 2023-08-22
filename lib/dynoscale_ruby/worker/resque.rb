@@ -6,6 +6,8 @@ module DynoscaleRuby
       include Singleton
 
       def self.enabled?
+        return false if ENV['SKIP_DYNOSCALE_AGENT']
+
         require 'resque'
         require 'resque_latency'
         true
@@ -29,4 +31,3 @@ module DynoscaleRuby
     end
   end
 end
-

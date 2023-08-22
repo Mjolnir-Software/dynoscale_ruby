@@ -19,14 +19,15 @@ module DynoscaleRuby
     end
 
     def call(env)
+      return @app.call(env) if ENV['SKIP_DYNOSCALE_AGENT']
+
       is_dev = ENV['DYNOSCALE_DEV'] == 'true'
       dyno = is_dev ? "dev.1" : ENV['DYNO']
 
       unless ENV['DYNOSCALE_URL']
         puts "Missing DYNOSCALE_URL environment variable"
         return @app.call(env)
-      end 
-      return @app.call(env) if ENV['SKIP_DYNASCALE_AGENT']
+      end
       return @app.call(env) unless is_dev || ENV['DYNO']&.split(".")&.last == "1"
 
       request_calculator = RequestCalculator.new(env)

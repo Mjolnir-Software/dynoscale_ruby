@@ -6,6 +6,8 @@ module DynoscaleRuby
       include Singleton
 
       def self.enabled?
+        return false if ENV['SKIP_DYNOSCALE_AGENT']
+
         require 'sidekiq/api'
         true
       rescue LoadError

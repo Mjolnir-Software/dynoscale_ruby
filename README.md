@@ -37,6 +37,10 @@ Some blog posts about why Dynoscale is a helpful tool.
 * [How to setup heroku autoscaling in under 15 minutes?](https://dynoscale.net/blog/how-to-setup-heroku-autoscaling-in-under-15-minutes)
 * [Level up your Heroku autoscaling in 15 minutes](http://localhost:5008/blog/level-up-your-heroku-autoscaling-in-15-minutes)
 
+## Skip Dynoscale Agent
+
+In review apps, staging or development environments, set the `SKIP_DYNOSCALE_AGENT` environment variable to disable the scaling agent on all web and worker processes.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Mjolnir-Software/dynoscale_ruby.
