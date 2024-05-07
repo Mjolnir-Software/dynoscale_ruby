@@ -20,7 +20,7 @@ module DynoscaleRuby
       @@current_report ||= Report.new(current_time + REPORT_RECORDING_FREQ)
       
       if queue_time
-        @@current_report.add_measurement(current_time, queue_time, 'web', nil)
+        @@current_report&.add_measurement(current_time, queue_time, 'web', nil)
         Logger.logger.debug "Web measurement #{current_time}, #{queue_time} recorded in report."
       end
 
@@ -35,7 +35,7 @@ module DynoscaleRuby
       end
 
       @@reports ||= {}
-      @@reports[@@current_report.publish_timestamp] = @@current_report
+      @@reports[@@current_report&.publish_timestamp] = @@current_report
       @@reports.values
     end
 
